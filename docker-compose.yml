@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  ui:
+    image: marville001/upesiui:latest
+    container_name: upesiui
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    networks:
+      - upesibank
+
+  api:
+    image: marville001/upesiapi:latest
+    container_name: upesiapi
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "8088:80"
+    networks:
+      - upesibank
+
+networks:
+  upesibank:
+    driver: bridge
