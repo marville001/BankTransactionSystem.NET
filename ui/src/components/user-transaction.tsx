@@ -12,7 +12,7 @@ const UserTransaction = ({ transaction, index }: UserTransactionProps) => {
 		<TableRow>
 			<TableCell className="font-medium">{index}</TableCell>
 			<TableCell>{transaction?.account?.name}</TableCell>
-			<TableCell>{transaction?.atm?.name}</TableCell>
+			{/* <TableCell>{transaction?.atm?.name}</TableCell> */}
 			<TableCell>{transaction?.amount}</TableCell>
 			<TableCell>{transaction?.status}</TableCell>
 			<TableCell>{transaction?.transactionType}</TableCell>

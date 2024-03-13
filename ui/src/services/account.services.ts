@@ -8,9 +8,16 @@ export const getUserAccounts = async () => {
 };
 
 export const withdrawMoney = async (details: { accountId: string; atmId: string; amount: string; }) => {
-	console.log(details);
 	return await apiCall({
 		url: 'accounts/withdraw',
+		method: 'POST',
+		data: details,
+	});
+};
+
+export const transferMoney = async (details: { accountId: string; receiverAccountId: string; amount: string; }) => {
+	return await apiCall({
+		url: 'accounts/transfer',
 		method: 'POST',
 		data: details,
 	});

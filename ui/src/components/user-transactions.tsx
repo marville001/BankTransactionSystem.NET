@@ -26,7 +26,7 @@ const UserTransactions = () => {
 						<TableRow>
 							<TableHead className="w-[100px]">#</TableHead>
 							<TableHead>Account</TableHead>
-							<TableHead>Atm</TableHead>
+							{/* <TableHead>Atm</TableHead> */}
 							<TableHead>Amount</TableHead>
 							<TableHead>Status</TableHead>
 							<TableHead>Transaction Type</TableHead>
