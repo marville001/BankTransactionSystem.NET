@@ -5,6 +5,9 @@ WORKDIR /App
 COPY . ./
 # Restore as distinct layers
 RUN dotnet restore
+
+RUN dotnet dev-certs https
+
 # Build and publish a release
 RUN dotnet publish -c Release -o out
 
