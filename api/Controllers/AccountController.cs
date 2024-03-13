@@ -49,5 +49,22 @@ public class AccountController : Controller
         {
             return BadRequest(new { message = ex.Message });
         }
+    }  
+    
+    [HttpPost]
+    [Route("transfer")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize]
+    public async Task<ActionResult> TransferMoney(TransferDto payload)
+    {
+        try
+        {
+            var result = await _accountService.TransferMoney(payload);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 }

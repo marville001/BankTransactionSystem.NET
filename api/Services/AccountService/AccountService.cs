@@ -141,4 +141,97 @@ public class AccountService: IAccountService
             TransactionType = newTransaction.TransactionType
         };
     }
+
+    public async Task<TransactionDto> TransferMoney(TransferDto payload)
+    {
+        var userContext = _httpContextAccessor?.HttpContext?.User;
+
+        var userEmail = userContext.FindFirst(ClaimTypes.Email).Value;
+        
+        if (userEmail == null)
+        {
+            throw new InvalidDataException("Invalid Operation");
+        }
+        
+        var loggedInUser = await _dbContext.UserEntities.FirstOrDefaultAsync(usr=>usr.Email == userEmail);
+        if (loggedInUser == null)
+        {
+            throw new InvalidDataException("Invalid Operation");
+        }
+
+        if (payload.AccountId == payload.ReceiverAccountId)
+        {
+            throw new InvalidOperationException("You can not make this transaction");
+        }
+
+        var userAccount = await _dbContext.AccountEntities
+            .Where(acc => acc.AccountId == payload.AccountId & acc.UserId == loggedInUser.Id)
+            .FirstOrDefaultAsync();
+
+        if (userAccount == null)
+        {
+            throw new InvalidOperationException("User account not found");
+        }
+
+        var receiverAccount = await _dbContext.AccountEntities
+            .Where(acc => acc.AccountId == payload.ReceiverAccountId)
+            .FirstOrDefaultAsync();
+        
+        if (receiverAccount == null)
+        {
+            throw new InvalidOperationException("Receiver account not found");
+        }
+        
+        if (userAccount.Balance < payload.Amount)
+            throw new InvalidOperationException("Insufficient funds in your account");
+        
+        // SIMULATE TRANSFER
+        
+        // Deduct Money From User
+        userAccount.Balance -= payload.Amount;
+        
+        // Add money to receiver account
+        receiverAccount.Balance += payload.Amount;
+        
+        // Track transaction in DB
+        TransactionEntity newTransaction = new TransactionEntity()
+        {
+            TransactionId = Guid.NewGuid(),
+            Status = "Success",
+            Amount = payload.Amount,
+            AccountId = userAccount.Id,
+            TransactionDate = DateTime.Now,
+            TransactionType = "Transfer",
+            ReceiverAccountId = receiverAccount.Id
+        };
+        
+        await _dbContext.TransactionEntities.AddAsync(newTransaction);
+        
+        //SYNC DB With changes
+        await _dbContext.SaveChangesAsync();
+
+        return new TransactionDto()
+        {
+            TransactionId = newTransaction.TransactionId,
+            Status = "Success",
+            Amount = payload.Amount,
+            AccountId = payload.AccountId,
+            Account = new UserAccountDto()
+            {
+                AccountId = userAccount.AccountId,
+                Name = userAccount.Name,
+                Balance = userAccount.Balance,
+                UserId = loggedInUser.UserId
+            },
+            ReceiverAccount = new UserAccountDto()
+            {
+                AccountId = receiverAccount.AccountId,
+                Name = receiverAccount.Name,
+                Balance = receiverAccount.Balance,
+            },
+            ReceiverAccountId = payload.ReceiverAccountId,
+            TransactionDate = newTransaction.TransactionDate,
+            TransactionType = newTransaction.TransactionType
+        };
+    }
 }

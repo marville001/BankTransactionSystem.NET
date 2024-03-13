@@ -10,7 +10,7 @@ const AppHeader = () => {
 	const totalAmmount = accounts.reduce((acc, account) => acc + account.balance, 0);
 
 	return (
-		<div className="bg-[#f2f2f2] p-3 rounded-lg max-w-screen-lg mx-auto">
+		<div className="bg-[#f2f2f2] shadow p-3 rounded-lg max-w-screen-lg mx-auto">
 			<div className="flex items-center justify-between">
 				<div>
 					<h1 className="text-lg font-bold text-gray-800">Accounts</h1>

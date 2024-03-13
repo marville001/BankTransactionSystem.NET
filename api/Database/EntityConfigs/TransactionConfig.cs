@@ -15,6 +15,9 @@ public class TransactionConfig:IEntityTypeConfiguration<TransactionEntity>
         builder.HasOne<AccountEntity>(rl => rl.AccountEntity)
             .WithMany()
             .HasForeignKey(acc => acc.AccountId);
+        builder.HasOne<AccountEntity>(rl => rl.ReceiverAccountEntity)
+            .WithMany()
+            .HasForeignKey(acc => acc.ReceiverAccountId);
         builder.HasOne<AtmEntity>(rl => rl.AtmEntity)
             .WithMany()
             .HasForeignKey(acc => acc.AtmId);

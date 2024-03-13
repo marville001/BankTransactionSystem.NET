@@ -33,7 +33,7 @@ const AccountsPage = () => {
   }, [user?.userId]);
 
   return (
-    <div className="p-3 rounded-lg max-w-screen-lg mx-auto mt-2">
+    <div className="p-3 rounded-lg max-w-screen-lg pb-6 mx-auto mt-8 md:px-6 shadow-lg ">
 
       <UserAccounts accounts={accounts} />
 

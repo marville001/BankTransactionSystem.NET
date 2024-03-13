@@ -43,6 +43,7 @@ const UserAccount = ({ account }: UserAccountProps) => {
 					</DropdownMenuTrigger>
 					<DropdownMenuContent>
 						<DropdownMenuItem onClick={() => setIsSelectAtmModalOpen(true)} className="cursor-pointer">Withdraw</DropdownMenuItem>
+						<DropdownMenuItem onClick={() => setIsSelectAtmModalOpen(true)} className="cursor-pointer">Send Money</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</div>

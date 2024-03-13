@@ -38,6 +38,7 @@ public class TransactionService: ITransactionService
 
         return await _dbContext.TransactionEntities
             .Include(trn=>trn.AccountEntity)
+            .Include(trn=>trn.ReceiverAccountEntity)
             .Include(trn=>trn.AtmEntity)
             .Where(acc => acc.AccountEntity.UserId == loggedInUser.Id)
             .Select(trn => new TransactionDto()
@@ -46,18 +47,24 @@ public class TransactionService: ITransactionService
                     Status = trn.Status,
                     Amount = trn.Amount,
                     AccountId = trn.AccountEntity.AccountId,
-                    AtmId = trn.AtmEntity.AtmId,
+                    AtmId = trn.AtmId == null? null : trn.AtmEntity.AtmId,
+                    ReceiverAccountId = trn.ReceiverAccountId == null? null :  trn.ReceiverAccountEntity.AccountId,
                     Account = new UserAccountDto()
                     {
                         AccountId = trn.AccountEntity.AccountId,
                         Name = trn.AccountEntity.Name,
                         Balance = trn.AccountEntity.Balance,
-                        UserId = loggedInUser.UserId
                     },
-                    Atm = new AtmDto()
+                    Atm = trn.AtmId == null? null : new AtmDto()
                     {
                         AtmId = trn.AtmEntity.AtmId,
-                        Name = trn.AtmEntity.Name,
+                        Name = trn.AtmEntity.Name
+                    },
+                    ReceiverAccount = trn.ReceiverAccountId == null? null : new UserAccountDto()
+                    {
+                        AccountId = trn.ReceiverAccountEntity.AccountId,
+                        Name = trn.ReceiverAccountEntity.Name,
+                        Balance = trn.ReceiverAccountEntity.Balance,
                     },
                     TransactionDate = trn.TransactionDate,
                     TransactionType = trn.TransactionType
