@@ -108,7 +108,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(allowOriginsPolicy);
 
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 

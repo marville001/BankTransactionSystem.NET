@@ -6,12 +6,8 @@ COPY . ./
 # Restore as distinct layers
 RUN dotnet restore
 
-RUN dotnet dev-certs https --clean
-RUN dotnet dev-certs https -trust
-RUN dotnet dev-certs https -check
-
 # Build and publish a release
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -c Release -o out /p:UseAppHost=false
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
