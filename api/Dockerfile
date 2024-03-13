@@ -6,7 +6,9 @@ COPY . ./
 # Restore as distinct layers
 RUN dotnet restore
 
-RUN dotnet dev-certs https
+RUN dotnet dev-certs https --clean
+RUN dotnet dev-certs https -trust
+RUN dotnet dev-certs https -check
 
 # Build and publish a release
 RUN dotnet publish -c Release -o out
