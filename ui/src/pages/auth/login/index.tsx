@@ -63,7 +63,7 @@ const LoginPage = () => {
 	const { isSubmitting } = form.formState;
 
 	return (
-		<div className="h-screen flex items-center justify-center p-3">
+		<div className="flex items-center justify-center h-screen p-3">
 
 			<div className="bg-white w-full sm:w-[400px] shadow rounded-lg p-4 mx-auto">
 				<h1 className="text-lg font-bold">Welcome</h1>
@@ -73,14 +73,14 @@ const LoginPage = () => {
 
 				{
 					error && (
-						<div className="bg-red-100 text-center text-red-600 p-2 rounded-md mb-4">
+						<div className="p-2 mb-4 text-center text-red-600 bg-red-100 rounded-md">
 							{error}
 						</div>
 					)
 				}
 
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 my-4">
+					<form onSubmit={form.handleSubmit(onSubmit)} className="my-4 space-y-3">
 						<FormField
 							control={form.control}
 							name="nationalId"
@@ -101,15 +101,15 @@ const LoginPage = () => {
 								<FormItem>
 									<FormLabel>Password</FormLabel>
 									<FormControl>
-										<Input placeholder="********" {...field} />
+										<Input type="password" placeholder="********" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
 
-						<div className="flex justify-between items-center">
-							<Link to="/register" className="text-primary underline">Create an account here</Link>
+						<div className="flex items-center justify-between">
+							<Link to="/register" className="underline text-primary">Create an account here</Link>
 							<Button loading={isSubmitting} type="submit">Submit</Button>
 						</div>
 					</form>
